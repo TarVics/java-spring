@@ -1,4 +1,4 @@
-package ua.com.tarvic.javaspring.controllers;
+package ua.com.tarvic.javaspring.lesson1.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -7,15 +7,15 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ua.com.tarvic.javaspring.dao.UserDAO;
-import ua.com.tarvic.javaspring.models.User;
+import ua.com.tarvic.javaspring.lesson1.dao.UserDAO;
+import ua.com.tarvic.javaspring.lesson1.models.User;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/lesson1/users")
 public class UserController {
 
 

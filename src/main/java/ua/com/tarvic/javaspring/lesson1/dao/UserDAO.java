@@ -1,4 +1,4 @@
-package ua.com.tarvic.javaspring.dao;
+package ua.com.tarvic.javaspring.lesson1.dao;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import ua.com.tarvic.javaspring.models.User;
+import ua.com.tarvic.javaspring.lesson1.models.User;
 
 
 public interface UserDAO extends JpaRepository<User, Integer/*Primary Key Type*/> {
