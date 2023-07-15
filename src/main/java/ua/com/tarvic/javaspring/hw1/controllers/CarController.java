@@ -5,19 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.com.tarvic.javaspring.hw1.dao.CarDAO;
-import ua.com.tarvic.javaspring.hw1.dao.CarExDAO;
 import ua.com.tarvic.javaspring.hw1.models.Car;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/hw1/cars")
+@RequestMapping(value = "/cars")
 @AllArgsConstructor
 public class CarController {
 
     private CarDAO carDAO;
-    private CarExDAO carExDAO;
+//    private CarExDAO carExDAO;
 
     //get /cars
     @GetMapping()
