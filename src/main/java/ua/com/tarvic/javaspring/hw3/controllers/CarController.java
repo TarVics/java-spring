@@ -1,4 +1,4 @@
-package ua.com.tarvic.javaspring.hw2.controllers;
+package ua.com.tarvic.javaspring.hw3.controllers;
 
 /*
 Створити модель
@@ -27,6 +27,13 @@ Level3 - model producer (для endpoint /cars)
 
 */
 
+/*
+Беремо проєкт з автомобілями, котрий робили до цього моменту
+1. Виносимо логіку у сервісний прошарок.
+2. Додаємо відправку листа на пошту з повідомленням реєстрації нової автівки
+*/
+
+
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,10 +41,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ua.com.tarvic.javaspring.hw2.models.Car;
-import ua.com.tarvic.javaspring.hw2.models.dto.CarDTO;
-import ua.com.tarvic.javaspring.hw2.models.views.Views;
-import ua.com.tarvic.javaspring.hw2.services.CarService;
+import ua.com.tarvic.javaspring.hw3.models.Car;
+import ua.com.tarvic.javaspring.hw3.models.dto.CarDTO;
+import ua.com.tarvic.javaspring.hw3.models.views.Views;
+import ua.com.tarvic.javaspring.hw3.services.CarService;
+import ua.com.tarvic.javaspring.hw3.utils.CarUtil;
 
 import java.util.List;
 
@@ -45,21 +53,27 @@ import java.util.List;
 @RequestMapping(value = "/cars")
 public class CarController {
     private final CarService carService;
+    private final CarUtil carUtil;
 
-    public CarController(@Qualifier("CarService.v1") CarService carService) {
+    public CarController(
+            @Qualifier("CarService.hw3.v1")
+            CarService carService,
+            CarUtil carUtil
+    ) {
         this.carService = carService;
+        this.carUtil = carUtil;
     }
 
     //get /cars
     @GetMapping()
-    @JsonView(Views.Level3.class)
+    @JsonView(Views.Public.class)
     public ResponseEntity<List<Car>> findAll() {
         return new ResponseEntity<>(carService.findAll(), HttpStatus.OK);
     }
 
     //get /cars/{id}
     @GetMapping("/{id}")
-    @JsonView(Views.Level1.class)
+    @JsonView(Views.Public.class)
     public ResponseEntity<Car> findById(@PathVariable int id) {
         Car car = carService.findById(id);
         HttpStatus status = car == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
@@ -68,28 +82,35 @@ public class CarController {
 
     //post /cars
     @PostMapping()
+    @JsonView(Views.Public.class)
     public ResponseEntity<Car> save(@RequestBody @Valid CarDTO carDTO) {
-        return new ResponseEntity<>(carService.save(carDTO), HttpStatus.CREATED);
+        System.out.println(carDTO);
+
+        Car car = carUtil.convertDtoToEntity(carDTO);
+        Car saved = carService.save(car);
+
+        return new ResponseEntity<>(saved,
+            carDTO.getId() == 0 ? HttpStatus.CREATED : HttpStatus.OK);
     }
 
     //delete /cars/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable int id) {
-        Car car = carService.deleteById(id);
-        HttpStatus status = car == null ? HttpStatus.NOT_FOUND : HttpStatus.NO_CONTENT;
+        Boolean deleted = carService.deleteById(id);
+        HttpStatus status = deleted ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(status.getReasonPhrase(), status);
     }
 
     //get cars/power/{value} (знайти всі по потужності) ()
     @GetMapping("/power/{value}")
-    @JsonView(Views.Level2.class)
+    @JsonView(Views.Public.class)
     public ResponseEntity<List<Car>> findByPower(@PathVariable int value) {
         return new ResponseEntity<>(carService.findByPower(value), HttpStatus.OK);
     }
 
     //get cars/producer/{value} (знайти всі по виробнику)
     @GetMapping("/producer/{value}")
-    @JsonView(Views.Level2.class)
+    @JsonView(Views.Public.class)
     public ResponseEntity<List<Car>> findByProducer(@PathVariable String value) {
         return new ResponseEntity<>(carService.findByProducer(value), HttpStatus.OK);
     }

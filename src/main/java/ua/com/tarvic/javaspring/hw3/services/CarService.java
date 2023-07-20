@@ -1,8 +1,7 @@
-package ua.com.tarvic.javaspring.hw2.services;
+package ua.com.tarvic.javaspring.hw3.services;
 
 import org.springframework.stereotype.Service;
-import ua.com.tarvic.javaspring.hw2.models.Car;
-import ua.com.tarvic.javaspring.hw2.models.dto.CarDTO;
+import ua.com.tarvic.javaspring.hw3.models.Car;
 
 import java.util.List;
 
@@ -12,9 +11,9 @@ public interface CarService {
 
     Car findById(int id);
 
-    Car save(CarDTO carDTO);
+    Car save(Car car);
 
-    Car deleteById(int id) ;
+    Boolean deleteById(int id) ;
 
     List<Car> findByPower(int value);
 
