@@ -25,9 +25,14 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
 
-        appUserDAO.save(appUser);
-
         String jwtToken = jwtService.generateToken(appUser);
+
+        ///+++++++++++++
+//        String refreshToken = jwtService.generateRefreshToken(appUser);
+//        appUser.setRefreshToken(refreshToken);
+        ///+++++++++++++
+
+        appUserDAO.save(appUser);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
