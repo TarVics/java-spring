@@ -1,11 +1,13 @@
 package ua.com.tarvic.javaspring.security.jwt.filters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import ua.com.tarvic.javaspring.security.jwt.dao.AppUserDAO;
+import ua.com.tarvic.javaspring.security.jwt.models.ResponseError;
 import ua.com.tarvic.javaspring.security.jwt.services.JwtService;
 
 import java.io.IOException;
@@ -90,15 +93,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             assert response != null;
             response.setHeader("Error", "Token is DEAD!!!");
 
-            String sb = "{\n" +
-                    "  \"error\": \"Unauthorized\",\n" +
-                    "  \"message\": \"Token is expired\",\n" +
-                    "  \"path\": \"" + request.getRequestURL() + "\"\n" +
-                    "}";
+//            String sb = "{\n" +
+//                    "  \"error\": \"Unauthorized\",\n" +
+//                    "  \"message\": \"Token is expired\",\n" +
+//                    "  \"path\": \"" + request.getRequestURL() + "\"\n" +
+//                    "}";
+//
+//            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            response.getWriter().write(sb);
 
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+            response.resetBuffer();
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write(sb);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            ResponseError responseError = ResponseError
+                    .builder()
+                    .code(HttpStatus.UNAUTHORIZED.value())
+                    .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                    .message("Token is expired")
+                    .path(request.getRequestURI())
+                    .build();
+
+//            response
+//                    .getOutputStream()
+//                    .write(new ObjectMapper().writeValueAsBytes(responseError));
+
+            response
+                    .getWriter()
+                    .write(new ObjectMapper().writeValueAsString(responseError));
+
             return;
         }
         ///+++++++++++++ JWT PAIR
