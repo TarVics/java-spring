@@ -1,13 +1,13 @@
-package ua.com.tarvic.javaspring.security.basicdb;
+package ua.com.tarvic.javaspring.hw2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JavaSpringApplication {
+public class Hw2Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(JavaSpringApplication.class, args);
+        SpringApplication.run(Hw2Application.class, args);
     }
 
 }

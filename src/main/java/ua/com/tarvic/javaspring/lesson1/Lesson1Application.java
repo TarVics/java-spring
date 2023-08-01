@@ -1,13 +1,13 @@
-package ua.com.tarvic.javaspring.security.jwt;
+package ua.com.tarvic.javaspring.lesson1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JavaSpringApplication {
+public class Lesson1Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(JavaSpringApplication.class, args);
+        SpringApplication.run(Lesson1Application.class, args);
     }
 
 }

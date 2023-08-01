@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.tarvic.javaspring.security.jwt.models.AuthenticationRequest;
 import ua.com.tarvic.javaspring.security.jwt.models.AuthenticationResponse;
+import ua.com.tarvic.javaspring.security.jwt.models.RefreshRequest;
 import ua.com.tarvic.javaspring.security.jwt.models.RegisterRequest;
 import ua.com.tarvic.javaspring.security.jwt.services.AuthenticationService;
 
@@ -26,4 +27,10 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
+    ///+++++++++++++ JWT PAIR
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthenticationResponse> refresh(@RequestBody RefreshRequest refreshRequest) {
+        return ResponseEntity.ok(authenticationService.refresh(refreshRequest));
+    }
+    ///+++++++++++++ JWT PAIR
 }

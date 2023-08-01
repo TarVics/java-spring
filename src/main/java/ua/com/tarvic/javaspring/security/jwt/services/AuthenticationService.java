@@ -27,15 +27,18 @@ public class AuthenticationService {
 
         String jwtToken = jwtService.generateToken(appUser);
 
-        ///+++++++++++++
-//        String refreshToken = jwtService.generateRefreshToken(appUser);
-//        appUser.setRefreshToken(refreshToken);
-        ///+++++++++++++
+        ///+++++++++++++ JWT PAIR
+        String refreshToken = jwtService.generateRefreshToken(appUser);
+        appUser.setRefreshToken(refreshToken);
+        ///+++++++++++++ JWT PAIR
 
         appUserDAO.save(appUser);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                ///+++++++++++++ JWT PAIR
+                .refreshToken(refreshToken)
+                ///+++++++++++++ JWT PAIR
                 .build();
     }
 
@@ -49,10 +52,40 @@ public class AuthenticationService {
                 .findAppUserByEmail(authenticationRequest.getEmail())
                 .orElseThrow();
 
-        String jwtToken = jwtService.generateToken(appUser);
+        String token = jwtService.generateToken(appUser);
+        ///+++++++++++++ JWT PAIR
+        String refreshToken = jwtService.generateRefreshToken(appUser);
+        appUser.setRefreshToken(refreshToken);
+        appUserDAO.save(appUser);
+        ///+++++++++++++ JWT PAIR
 
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .token(token)
+                ///+++++++++++++ JWT PAIR
+                .refreshToken(refreshToken)
+                ///+++++++++++++ JWT PAIR
                 .build();
     }
+    ///+++++++++++++ JWT PAIR
+    public AuthenticationResponse refresh(RefreshRequest refreshRequest) {
+        String token = refreshRequest.getRefreshToken();
+        String username = jwtService.extractUsername(token);
+        AppUser appUser = appUserDAO.findAppUserByEmail(username).orElseThrow();
+
+        String newAccessToken = null;
+        String newRefreshToken = null;
+
+        if (appUser.getRefreshToken().equals(token)) {
+            newAccessToken = jwtService.generateToken(appUser);
+            newRefreshToken = jwtService.generateRefreshToken(appUser);
+            appUser.setRefreshToken(newRefreshToken);
+            appUserDAO.save(appUser);
+        }
+
+        return AuthenticationResponse.builder()
+                .token(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .build();
+    }
+    ///+++++++++++++ JWT PAIR
 }

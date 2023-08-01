@@ -1,5 +1,5 @@
 package ua.com.tarvic.javaspring.security.jwt.models;
-
+///+++++++++++++ JWT PAIR
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthenticationResponse {
-    private String token;
-    ///+++++++++++++ JWT PAIR
+public class RefreshRequest {
     private String refreshToken;
-    ///+++++++++++++ JWT PAIR
 }
+///+++++++++++++ JWT PAIR

@@ -28,7 +28,9 @@ public class AppUser implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
-
+    ///+++++++++++++ JWT PAIR
+    private String refreshToken;
+    ///+++++++++++++ JWT PAIR
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

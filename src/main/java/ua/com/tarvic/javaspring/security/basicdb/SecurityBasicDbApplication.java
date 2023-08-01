@@ -1,13 +1,13 @@
-package ua.com.tarvic.javaspring.security.basic;
+package ua.com.tarvic.javaspring.security.basicdb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JavaSpringApplication {
+public class SecurityBasicDbApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JavaSpringApplication.class, args);
+        SpringApplication.run(SecurityBasicDbApplication.class, args);
     }
 
 }

@@ -1,13 +1,13 @@
-package ua.com.tarvic.javaspring.hw4;
+package ua.com.tarvic.javaspring.security.basic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JavaSpringApplication {
+public class SecurityBasicApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JavaSpringApplication.class, args);
+        SpringApplication.run(SecurityBasicApplication.class, args);
     }
 
 }
